@@ -12,7 +12,7 @@
     $selectedTabs = explode(',', $shortcode->tabs ?: 'project,rent,sale');
 
     $defaultSearchType = $shortcode->default_search_type ?: 'project';
-    $tabs = collect(['project' => __('Project'), 'rent' => __('Properties'), 'sale' => __('For Sale')])
+    $tabs = collect(['project' => __('Project'), 'rent' => __('Properties'), 'sale' => __('For Sale')]) //change name here
         ->when(!RealEstateHelper::isEnabledProjects() || !$projectsSearchEnabled, function ($tabs) use (&$projectsSearchEnabled) {
             $projectsSearchEnabled = false;
             return $tabs->forget('project');
