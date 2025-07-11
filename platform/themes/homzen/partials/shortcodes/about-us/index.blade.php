@@ -1,4 +1,4 @@
-<section class="flat-section flat-banner-about">
+<section class="flat-section flat-banner-about" style="background-color: #fef9e6">
     <div class="container">
         <div class="row">
             <div class="col-md-5">

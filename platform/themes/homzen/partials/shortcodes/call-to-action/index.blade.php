@@ -1,7 +1,7 @@
-<section class="flat-section pt-0 flat-banner">
-    <div class="container">
+<section class="flat-section pt-0 flat-banner" style="background-color: #fef9e6">
+    <div class="container" style="background-color: #fef9e6">
         <div class="wrap-banner bg-surface">
-            <div class="box-left">
+            <div class="box-left" style="background-color: #fef9e6">
                 <div class="box-title">
                     @if($shortcode->subtitle)
                         <div class="text-subtitle text-primary">{!! BaseHelper::clean($shortcode->subtitle) !!}</div>
