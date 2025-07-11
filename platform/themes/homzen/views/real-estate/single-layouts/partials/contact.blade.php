@@ -11,14 +11,14 @@
                 <div class="text-1 name">
                     <a href="{{ $account->url }}">{{ $account->name }}</a>
                 </div>
-                @if ($account->phone && ! setting('real_estate_hide_agency_phone', false))
+                {{-- @if ($account->phone && ! setting('real_estate_hide_agency_phone', false))
                     <a href="tel:{{ $account->phone }}" class="info-item">{{ $account->phone }}</a>
                 @elseif($hotline = theme_option('hotline'))
                     <a href="tel:{{ $hotline }}" class="info-item">{{ $hotline }}</a>
                 @endif
                 @if ($account->email && ! setting('real_estate_hide_agency_email', false))
                     <a href="mailto:{{ $account->email }}" class="info-item">{{ $account->email }}</a>
-                @endif
+                @endif --}}
             </div>
         </div>
     @endif
