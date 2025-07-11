@@ -22,7 +22,7 @@
             <div class="inner-footer">
                 <div class="container">
                     <div class="row">
-                        {!! $innerFooterSidebar !!}
+                        {!! preg_replace('/<[^>]*Our Agents[^>]*>.*?<\/[^>]+>/is', '', $innerFooterSidebar) !!}
                     </div>
                 </div>
             </div>
