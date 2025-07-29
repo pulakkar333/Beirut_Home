@@ -36,8 +36,10 @@ class PropertyRequest extends Request
             'facilities.*.distance' => array('required', 'string', 'max:50'),
             'private_notes' => array('nullable', 'string', 'max:10000'),
             'floor_plans' => array('nullable'),
-            'booked_dates' => array('required', 'array', 'min:1'),
-            'booked_dates.*' => array('date_format:Y-m-d'),
+            'never_expired'         => array('nullable', 'boolean'),
+            'auto_renew'            => array('nullable', 'boolean'),
+            'booked_dates'          => array('required', 'array', 'min:1'),
+            'booked_dates.*'        => array('date_format:Y-m-d'),
         );
     }
 

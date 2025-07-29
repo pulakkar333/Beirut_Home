@@ -53,6 +53,7 @@ class Property extends BaseModel
         'author_type',
         'expire_date',
         'auto_renew',
+        'never_expired',
         'latitude',
         'longitude',
         'unique_id',
@@ -82,6 +83,9 @@ class Property extends BaseModel
         'featured_priority' => 'int',
         'floor_plans' => 'array',
         'booked_dates' => 'array',
+        'never_expired' => 'boolean',
+        'auto_renew' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     protected static function booted(): void
