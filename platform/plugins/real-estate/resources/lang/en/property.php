@@ -79,6 +79,11 @@ return [
     'unique_id' => 'Unique ID',
     'private_notes' => 'Private notes',
     'private_notes_helper' => 'Private notes are only visible to owner. It won\'t be shown on the frontend.',
+    'booked_dates' => 'Booked Dates',
+    'select_booked_dates' => 'Click to select booked dates',
+    'booked_dates_help' => 'Select multiple dates when this property is not available for booking',
+    'dates_selected' => 'dates selected',
+    'booked_dates_required' => 'Please select at least one booked date.',
     'floor_plans' => [
         'title' => 'Floor plans',
         'name' => 'Name',

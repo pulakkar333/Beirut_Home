@@ -59,6 +59,7 @@ class Property extends BaseModel
         'private_notes',
         'floor_plans',
         'reject_reason',
+        'booked_dates',
     ];
 
     protected $casts = [
@@ -80,6 +81,7 @@ class Property extends BaseModel
         'number_floor' => 'int',
         'featured_priority' => 'int',
         'floor_plans' => 'array',
+        'booked_dates' => 'array',
     ];
 
     protected static function booted(): void
