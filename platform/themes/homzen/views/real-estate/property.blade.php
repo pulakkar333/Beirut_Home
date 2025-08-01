@@ -6,6 +6,8 @@
     Theme::asset()->container('footer')->usePath()->add('fancybox', 'plugins/fancybox/jquery.fancybox.min.js');
     Theme::asset()->usePath()->add('leaflet', 'plugins/leaflet/leaflet.css');
     Theme::asset()->container('footer')->usePath()->add('leaflet', 'plugins/leaflet/leaflet.js');
+    Theme::asset()->add('flatpickr-css', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
+    Theme::asset()->container('footer')->add('flatpickr-js', 'https://cdn.jsdelivr.net/npm/flatpickr');
 
     $style = theme_option('real_estate_property_detail_layout', 1);
     $style = in_array($style, range(1, 4)) ? $style : 1;

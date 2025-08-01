@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('re_properties', function (Blueprint $table) {
-            $table->json('booked_dates')->nullable()->after('never_expired');
+            $table->json('booked_dates')->nullable()->default('[]')->after('never_expired');
         });
     }
 

@@ -12,6 +12,8 @@
 
                 @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.description'), ['class' => 'single-property-element'])
 
+                @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.booking-calendar'), ['class' => 'single-property-element'])
+
                 @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.video'), ['class' => 'single-property-element'])
 
                 @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.features'), ['class' => 'single-property-element'])

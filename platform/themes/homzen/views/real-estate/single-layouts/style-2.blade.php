@@ -66,6 +66,7 @@
                     <div class="widget-box-header-single">
                         @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.header'))
                         @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.description'))
+                        @include(Theme::getThemeNamespace('views.real-estate.single-layouts.partials.booking-calendar'))
                     </div>
                 </div>
                 {!! apply_filters('before_single_content_detail', null, $property) !!}
