@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedDates = [];
     
     // Initialize with existing dates
-    const existingDates = @json(old('booked_dates', $bookedDates ?? []));
+    const existingDates = @json(old('calender', $bookedDates ?? []));
     selectedDates = existingDates || [];
     updateDisplayText();
     updateHiddenInputs();

@@ -1,5 +1,5 @@
 <div @class(['single-property-booking-calendar', $class ?? null])>
-    <div class="h7 title fw-7">{{ trans('plugins/real-estate::property.booked_dates') }}</div>
+    <div class="h7 title fw-7">{{ trans('plugins/real-estate::property.see_available_dates') }}</div>
     
     <div class="booking-calendar-wrapper">
         <div id="booking-calendar-inline"></div>
@@ -13,12 +13,6 @@
                 <div class="legend-color legend-available"></div>
                 <span>{{ trans('plugins/real-estate::property.available') }}</span>
             </div>
-        </div>
-        
-        <div class="help-block mt-2">
-            <small class="text-muted">
-                {{ trans('plugins/real-estate::property.orange_dates_help') }}
-            </small>
         </div>
     </div>
 </div>
@@ -60,7 +54,7 @@
 .booking-legend {
     display: flex;
     gap: 1rem;
-    justify-content: center;
+    justify-content: flex-start;
     font-size: 0.875rem;
 }
 

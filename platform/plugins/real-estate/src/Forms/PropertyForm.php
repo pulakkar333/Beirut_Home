@@ -446,7 +446,7 @@ class PropertyForm extends FormAbstract
                     'priority' => 1,
                 ],
                 'booked_dates' => [
-                    'title' => trans('plugins/real-estate::property.calendar'),
+                    'title' => trans('plugins/real-estate::property.booked_dates'),
                     'content' => view(
                         'plugins/real-estate::partials.form-booked-dates',
                         ['bookedDates' => $this->getModel()->booked_dates ?? []]

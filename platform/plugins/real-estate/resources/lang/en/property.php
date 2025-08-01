@@ -79,7 +79,7 @@ return [
     'unique_id' => 'Unique ID',
     'private_notes' => 'Private notes',
     'private_notes_helper' => 'Private notes are only visible to owner. It won\'t be shown on the frontend.',
-    'booked_dates' => 'Calender',
+    'booked_dates' => 'Booked Dates',
     'select_booked_dates' => 'Click to select booked dates',
     'booked_dates_help' => 'Select dates when this property is not available for booking (optional)',
     'dates_selected'                => 'dates selected',
