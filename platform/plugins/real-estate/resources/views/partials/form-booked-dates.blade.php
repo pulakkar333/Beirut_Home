@@ -1,19 +1,19 @@
 <div class="form-group mb-3" id="booked-dates-wrapper">
-    <label class="control-label required">{{ trans('plugins/real-estate::property.booked_dates') }}</label>
+    <label class="control-label">{{ trans('plugins/real-estate::property.calendar') }}</label>
     <div class="form-group">
         <input type="text" 
                id="booked-dates-picker" 
                class="form-control @error('booked_dates') is-invalid @enderror" 
                placeholder="{{ trans('plugins/real-estate::property.select_booked_dates') }}"
                readonly
-               required>
+               >
         <div id="booked-dates-hidden-inputs"></div>
         @error('booked_dates')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
     </div>
     <div class="help-block">
-        <small class="text-muted">{{ trans('plugins/real-estate::property.booked_dates_help') }} <span class="text-danger">*</span></small>
+        <small class="text-muted">{{ trans('plugins/real-estate::property.booked_dates_help') }}</small>
     </div>
 </div>
 
@@ -32,19 +32,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize Flatpickr
     if (typeof flatpickr !== 'undefined') {
-        flatpickr(picker, {
+        const fp = flatpickr(picker, {
             mode: 'multiple',
             dateFormat: 'Y-m-d',
             defaultDate: selectedDates,
             onChange: function(selectedDatesArray, dateStr, instance) {
-                selectedDates = selectedDatesArray.map(date => {
-                    return date.toISOString().split('T')[0];
-                });
+                // Update selectedDates array with the new selection
+                if (selectedDatesArray.length === 0) {
+                    selectedDates = [];
+                } else {
+                    selectedDates = selectedDatesArray.map(date => {
+                        // Use local date to avoid timezone issues
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    });
+                }
                 updateHiddenInputs();
                 updateDisplayText();
                 validateSelection();
+            },
+            onReady: function(selectedDatesArray, dateStr, instance) {
+                // Ensure initial dates are properly set
+                updateHiddenInputs();
+                updateDisplayText();
             }
         });
+        
+        // Store flatpickr instance for later use
+        picker._flatpickr = fp;
     } else {
         // Fallback for basic date selection
         picker.addEventListener('click', function() {
@@ -68,65 +85,67 @@ document.addEventListener('DOMContentLoaded', function() {
             dateInput.click();
         });
         
-        // Add remove functionality
-        picker.addEventListener('dblclick', function() {
-            if (selectedDates.length > 0) {
-                selectedDates.pop();
-                updateHiddenInputs();
-                updateDisplayText();
-                validateSelection();
-            }
-        });
+
     }
     
     function updateHiddenInputs() {
         // Clear existing hidden inputs
         hiddenInputsContainer.innerHTML = '';
         
-        // Create hidden input for each selected date
-        selectedDates.forEach(function(date, index) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'booked_dates[]';
-            input.value = date;
-            hiddenInputsContainer.appendChild(input);
-        });
+        // Always create hidden inputs, even if empty array
+        if (selectedDates.length > 0) {
+            selectedDates.forEach(function(date, index) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'booked_dates[]';
+                input.value = date;
+                hiddenInputsContainer.appendChild(input);
+            });
+        } else {
+            // Create an empty hidden input to ensure the field is submitted as empty array
+            const emptyInput = document.createElement('input');
+            emptyInput.type = 'hidden';
+            emptyInput.name = 'booked_dates';
+            emptyInput.value = '';
+            hiddenInputsContainer.appendChild(emptyInput);
+        }
     }
     
     function updateDisplayText() {
         if (selectedDates.length === 0) {
             picker.value = '';
             picker.placeholder = '{{ trans('plugins/real-estate::property.select_booked_dates') }}';
+            // Hide the calendar section if no dates selected
+            const calendarSection = document.querySelector('.single-property-booking-calendar');
+            if (calendarSection) {
+                calendarSection.style.display = 'none';
+            }
         } else if (selectedDates.length === 1) {
             picker.value = selectedDates[0];
+            // Show the calendar section if dates are selected
+            const calendarSection = document.querySelector('.single-property-booking-calendar');
+            if (calendarSection) {
+                calendarSection.style.display = 'block';
+            }
         } else {
             picker.value = selectedDates.length + ' {{ trans('plugins/real-estate::property.dates_selected') }}';
+            // Show the calendar section if dates are selected
+            const calendarSection = document.querySelector('.single-property-booking-calendar');
+            if (calendarSection) {
+                calendarSection.style.display = 'block';
+            }
         }
     }
     
     function validateSelection() {
-        const isValid = selectedDates.length > 0;
-        if (isValid) {
-            picker.classList.remove('is-invalid');
+        // Since booked_dates is now optional, always return true
+        picker.classList.remove('is-invalid');
+        if (selectedDates.length > 0) {
             picker.classList.add('is-valid');
         } else {
             picker.classList.remove('is-valid');
-            picker.classList.add('is-invalid');
         }
-        return isValid;
-    }
-    
-    // Form submission validation
-    const form = picker.closest('form');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            if (!validateSelection()) {
-                e.preventDefault();
-                picker.focus();
-                alert('{{ trans('plugins/real-estate::property.booked_dates_required') }}');
-                return false;
-            }
-        });
+        return true;
     }
 });
 </script>
@@ -154,8 +173,5 @@ document.addEventListener('DOMContentLoaded', function() {
     border-color: #28a745;
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
-.control-label.required::after {
-    content: " *";
-    color: #dc3545;
-}
+
 </style>

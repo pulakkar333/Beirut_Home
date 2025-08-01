@@ -38,7 +38,7 @@ class PropertyRequest extends Request
             'floor_plans' => ['nullable'],
             'never_expired'         => array('nullable', 'boolean'),
             'auto_renew'            => array('nullable', 'boolean'),
-            'booked_dates'          => array('required', 'array', 'min:1'),
+            'booked_dates'          => array('nullable', 'array'),
             'booked_dates.*'        => array('date_format:Y-m-d'),
         ];
     }

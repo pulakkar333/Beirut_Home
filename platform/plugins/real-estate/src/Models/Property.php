@@ -90,6 +90,9 @@ class Property extends BaseModel
 
     protected $attributes = [
         'booked_dates' => '[]',
+        'never_expired' => false,
+        'auto_renew' => false,
+        'is_featured' => false,
     ];
 
     protected static function booted(): void
