@@ -1,5 +1,10 @@
 'use strict'
 
+// Ensure jQuery is available
+if (typeof $ === 'undefined') {
+    console.error('jQuery is not loaded. Theme functionality will not work properly.')
+}
+
 $(() => {
     window.Theme = window.Theme || {}
 

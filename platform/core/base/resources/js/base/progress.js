@@ -96,11 +96,23 @@ export default function setupProgress({
     includeCSS = true,
     showSpinner = false,
 } = {}) {
+    // Check if jQuery is available
+    if (typeof $ === 'undefined') {
+        console.warn('jQuery is not available. Progress functionality will be limited.')
+        NProgress.configure({ showSpinner })
+        if (includeCSS) {
+            injectCSS(color)
+        }
+        return
+    }
+
     $(document).on('ajaxSend', () => NProgress.inc(delay))
     $(document).on('ajaxStop', () => NProgress.done())
 
-    $httpClient.beforeSend(() => NProgress.inc(delay))
-    $httpClient.completed(() => NProgress.done())
+    if (typeof $httpClient !== 'undefined') {
+        $httpClient.beforeSend(() => NProgress.inc(delay))
+        $httpClient.completed(() => NProgress.done())
+    }
 
     NProgress.configure({ showSpinner })
 

@@ -19,12 +19,13 @@ return [
             $theme->asset()->usePath()->add('swiper', 'plugins/swiper/swiper-bundle.min.css');
             $theme->asset()->usePath()->add('style', 'css/style.css', version: $version);
 
-            $theme->asset()->container('footer')->usePath()->add('popper', 'js/popper.min.js');
-            $theme->asset()->container('footer')->usePath()->add('bootstrap', 'plugins/bootstrap/js/bootstrap.min.js');
+            // Load jQuery first, before any other scripts that depend on it
             $theme->asset()->container('footer')->usePath()->add('jquery', 'js/jquery.min.js');
-            $theme->asset()->container('footer')->usePath()->add('wow', 'js/wow.min.js');
-            $theme->asset()->container('footer')->usePath()->add('swiper', 'plugins/swiper/swiper-bundle.min.js');
-            $theme->asset()->container('footer')->usePath()->add('script', 'js/script.js', version: $version);
+            $theme->asset()->container('footer')->usePath()->add('popper', 'js/popper.min.js', ['jquery']);
+            $theme->asset()->container('footer')->usePath()->add('bootstrap', 'plugins/bootstrap/js/bootstrap.min.js', ['jquery', 'popper']);
+            $theme->asset()->container('footer')->usePath()->add('wow', 'js/wow.min.js', ['jquery']);
+            $theme->asset()->container('footer')->usePath()->add('swiper', 'plugins/swiper/swiper-bundle.min.js', ['jquery']);
+            $theme->asset()->container('footer')->usePath()->add('script', 'js/script.js', ['jquery'], version: $version);
 
             if (is_plugin_active('social-login')) {
                 $theme->asset()

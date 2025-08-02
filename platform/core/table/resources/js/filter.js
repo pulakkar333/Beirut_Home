@@ -1,6 +1,12 @@
 class TableFilter {
-    $filterForm = $(document).find('form.filter-form')
-    $table = this.$filterForm.closest('.table-wrapper').find('table')
+    constructor() {
+        if (typeof $ === 'undefined') {
+            console.warn('jQuery is not available. TableFilter will not function properly.')
+            return
+        }
+        this.$filterForm = $(document).find('form.filter-form')
+        this.$table = this.$filterForm.closest('.table-wrapper').find('table')
+    }
 
     loadData($element) {
         $httpClient
@@ -116,6 +122,11 @@ class TableFilter {
     }
 }
 
-$(() => {
-    new TableFilter().init()
-})
+// Ensure jQuery is available before initializing
+if (typeof $ !== 'undefined') {
+    $(() => {
+        new TableFilter().init()
+    })
+} else {
+    console.warn('jQuery is not loaded. Table filter functionality will not work.')
+}
