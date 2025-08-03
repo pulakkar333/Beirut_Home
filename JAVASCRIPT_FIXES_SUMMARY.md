@@ -56,7 +56,7 @@ if (typeof $ === 'undefined') {
 2. `platform/core/base/resources/js/base/progress.js` - Added jQuery check
 3. `vendor/botble/platform/table/resources/js/filter.js` - Added jQuery check
 4. `platform/plugins/real-estate/resources/js/real-estate.js` - Added jQuery check
-5. `platform/themes/homzen/assets/js/script.js` - Added jQuery check
+5. `platform/themes/homzen/assets/js/script.js` - Added jQuery check, plugin availability checks, fallback functions
 6. `platform/core/setting/resources/js/admin-email.js` - Fixed HTML escaping
 7. `platform/core/base/resources/js/core.js` - Fixed menu item count map error
 
@@ -74,6 +74,34 @@ if (typeof $ === 'undefined') {
 - Add error handling with `.catch()` for failed API requests
 - Provide helpful console warnings for debugging
 
+### 9. jQuery Plugin Availability Checks
+**Problem**: Various jQuery plugins (parallax, countTo, onePageNav, WOW) were being used without checking if they're loaded, causing errors.
+
+**Solution**: Added availability checks in `platform/themes/homzen/assets/js/script.js`:
+- `typeof $.fn.parallax !== 'undefined'` before using parallax
+- `typeof $.fn.countTo !== 'undefined'` before using countTo
+- `typeof $.fn.onePageNav !== 'undefined'` before using onePageNav
+- `typeof WOW !== 'undefined'` before initializing WOW animations
+
+### 10. Swiper Library Availability
+**Problem**: Swiper library was being used without checking if it's loaded, causing errors.
+
+**Solution**: Added Swiper availability checks and created helper function:
+- Added `typeof Swiper !== 'undefined'` checks before Swiper initialization
+- Created `Theme.initSwiper()` helper function for safe Swiper initialization
+
+### 11. Leaflet Map Library Check
+**Problem**: Leaflet (L) library was being used without checking availability.
+
+**Solution**: Added `typeof L === 'undefined'` check in `initMap()` function to prevent errors when Leaflet is not loaded.
+
+### 12. Theme Function Fallbacks
+**Problem**: Theme functions (`Theme.showError`, `Theme.showSuccess`, `Theme.handleError`) were being used but might not be defined by the core system.
+
+**Solution**: Added fallback implementations in `platform/themes/homzen/assets/js/script.js`:
+- Fallback functions that use console logging and basic alerts
+- Proper error handling for AJAX responses
+
 ## Expected Results
 
 After these fixes, the following JavaScript errors should be resolved:
@@ -84,6 +112,11 @@ After these fixes, the following JavaScript errors should be resolved:
 4. ✅ `select2.min.js?v=1.2.5:2 Uncaught TypeError: Cannot read properties of undefined (reading 'fn')`
 5. ✅ `filter.js?v=1.2.5:110 Uncaught TypeError: $ is not a function at filter.js`
 6. ✅ `core.js?v=1.2.5:663 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'map')`
+7. ✅ Errors related to undefined jQuery plugins (parallax, countTo, onePageNav)
+8. ✅ Errors related to undefined Swiper library
+9. ✅ Errors related to undefined Leaflet (L) library
+10. ✅ Errors related to undefined WOW animation library
+11. ✅ Errors related to undefined Theme functions
 
 ## Best Practices Implemented
 

@@ -1721,13 +1721,22 @@ class Botble {
                     // Check if data.data exists and is an array before calling map
                     if (data && data.data && Array.isArray(data.data)) {
                         data.data.map((x) => {
-                        if (x.value > 0) {
-                            $(`.menu-item-count.${x.key}`)
-                                .text(x.value)
-                                .show()
-                                .removeClass("hidden");
-                        }
-                    });
+                            if (x.value > 0) {
+                                $(`.menu-item-count.${x.key}`)
+                                    .text(x.value)
+                                    .show()
+                                    .removeClass("hidden");
+                            }
+                        });
+                    } else {
+                        console.warn(
+                            "Menu item count data is not in expected format:",
+                            data,
+                        );
+                    }
+                })
+                .catch((error) => {
+                    console.warn("Failed to load menu item counts:", error);
                 });
         }
     }
