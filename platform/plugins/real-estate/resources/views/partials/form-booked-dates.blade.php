@@ -115,25 +115,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (selectedDates.length === 0) {
             picker.value = '';
             picker.placeholder = '{{ trans('plugins/real-estate::property.select_booked_dates') }}';
-            // Hide the calendar section if no dates selected
-            const calendarSection = document.querySelector('.single-property-booking-calendar');
-            if (calendarSection) {
-                calendarSection.style.display = 'none';
-            }
         } else if (selectedDates.length === 1) {
             picker.value = selectedDates[0];
-            // Show the calendar section if dates are selected
-            const calendarSection = document.querySelector('.single-property-booking-calendar');
-            if (calendarSection) {
-                calendarSection.style.display = 'block';
-            }
         } else {
             picker.value = selectedDates.length + ' {{ trans('plugins/real-estate::property.dates_selected') }}';
-            // Show the calendar section if dates are selected
-            const calendarSection = document.querySelector('.single-property-booking-calendar');
-            if (calendarSection) {
-                calendarSection.style.display = 'block';
-            }
         }
     }
     
