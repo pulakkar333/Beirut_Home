@@ -7,7 +7,10 @@
 @endphp
 
 @if($topFooterSidebar || $innerFooterSidebar || $bottomFooterSidebar)
-    <footer class="footer" @style(["background-color: $footerBackgroundColor" => $footerBackgroundColor, "background-image: url('$footerBackgroundImage') !important" => theme_option('footer_background_image')])>
+    <footer class="footer" @style([
+        "background-color: $footerBackgroundColor" => $footerBackgroundColor,
+        "background-image: url('$footerBackgroundImage') !important" => theme_option('footer_background_image')
+    ])>
         @if($topFooterSidebar)
             <div class="top-footer">
                 <div class="container">
@@ -22,7 +25,11 @@
             <div class="inner-footer">
                 <div class="container">
                     <div class="row">
-                        {!! preg_replace('/<[^>]*Our Agents[^>]*>.*?<\/[^>]+>/is', '', $innerFooterSidebar) !!}
+                        {!! preg_replace(
+                            '/<[^>]*?(Our Agents|Categories|Pricing Plans)[^>]*>.*?<\/[^>]+>/is',
+                            '',
+                            $innerFooterSidebar
+                        ) !!}
                     </div>
                 </div>
             </div>

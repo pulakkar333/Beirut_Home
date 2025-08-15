@@ -66,7 +66,8 @@ class PropertyController extends BaseController
             $property = $form->getModel();
             $property->fill($request->input());
             $property->moderation_status = ModerationStatusEnum::APPROVED;
-            $property->never_expired = $request->input('never_expired');
+            $property->never_expired = $request->input('never_expired', false);
+            $property->auto_renew = $request->input('auto_renew', false);
             $property->save();
 
             $form->fireModelEvents($property);
@@ -123,7 +124,8 @@ class PropertyController extends BaseController
                 $property->fill($request->except(['expire_date']));
                 $property->author_type = Account::class;
                 $property->images = array_filter($request->input('images', []));
-                $property->never_expired = $request->input('never_expired');
+                $property->never_expired = $request->input('never_expired', false);
+                $property->auto_renew = $request->input('auto_renew', false);
                 $property->save();
 
                 $form->fireModelEvents($property);

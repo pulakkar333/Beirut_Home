@@ -49,10 +49,14 @@ class PropertyForm extends FormAbstract
         Assets::usingVueJS()
             ->addStyles('datetimepicker')
             ->addScripts('input-mask')
-            ->addStylesDirectly('vendor/core/plugins/real-estate/css/real-estate.css')
+            ->addStylesDirectly([
+                'vendor/core/plugins/real-estate/css/real-estate.css',
+                'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'
+            ])
             ->addScriptsDirectly([
                 'vendor/core/plugins/real-estate/js/real-estate.js',
                 'vendor/core/plugins/real-estate/js/components.js',
+                'https://cdn.jsdelivr.net/npm/flatpickr'
             ]);
 
         $projects = Project::query()
@@ -438,6 +442,14 @@ class PropertyForm extends FormAbstract
                     'content' => view(
                         'plugins/real-estate::partials.form-facilities',
                         compact('facilities', 'selectedFacilities')
+                    ),
+                    'priority' => 1,
+                ],
+                'booked_dates' => [
+                    'title' => trans('plugins/real-estate::property.booked_dates'),
+                    'content' => view(
+                        'plugins/real-estate::partials.form-booked-dates',
+                        ['bookedDates' => $this->getModel()->booked_dates ?? []]
                     ),
                     'priority' => 0,
                 ],

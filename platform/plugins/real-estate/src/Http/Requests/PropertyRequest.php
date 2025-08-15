@@ -36,6 +36,10 @@ class PropertyRequest extends Request
             'facilities.*.distance' => ['required', 'string', 'max:50'],
             'private_notes' => ['nullable', 'string', 'max:10000'],
             'floor_plans' => ['nullable'],
+            'never_expired'         => array('nullable', 'boolean'),
+            'auto_renew'            => array('nullable', 'boolean'),
+            'booked_dates'          => array('nullable', 'array'),
+            'booked_dates.*'        => array('date_format:Y-m-d'),
         ];
     }
 
@@ -46,6 +50,7 @@ class PropertyRequest extends Request
             'custom_fields.*.name' => trans('plugins/real-estate::custom-fields.name'),
             'custom_fields.*.value' => trans('plugins/real-estate::custom-fields.name'),
             'floor_plans' => trans('plugins/real-estate::property.floor_plans.title'),
+            'booked_dates' => trans('plugins/real-estate::property.booked_dates'),
         ];
     }
 }

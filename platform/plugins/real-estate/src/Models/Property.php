@@ -53,12 +53,14 @@ class Property extends BaseModel
         'author_type',
         'expire_date',
         'auto_renew',
+        'never_expired',
         'latitude',
         'longitude',
         'unique_id',
         'private_notes',
         'floor_plans',
         'reject_reason',
+        'booked_dates',
     ];
 
     protected $casts = [
@@ -80,6 +82,17 @@ class Property extends BaseModel
         'number_floor' => 'int',
         'featured_priority' => 'int',
         'floor_plans' => 'array',
+        'booked_dates' => 'array',
+        'never_expired' => 'boolean',
+        'auto_renew' => 'boolean',
+        'is_featured' => 'boolean',
+    ];
+
+    protected $attributes = [
+        'booked_dates' => '[]',
+        'never_expired' => false,
+        'auto_renew' => false,
+        'is_featured' => false,
     ];
 
     protected static function booted(): void
@@ -111,7 +124,7 @@ class Property extends BaseModel
 
     protected function image(): Attribute
     {
-        return Attribute::get(fn () => Arr::first($this->images) ?? null);
+        return Attribute::get(fn() => Arr::first($this->images) ?? null);
     }
 
     protected function squareText(): Attribute
@@ -127,12 +140,12 @@ class Property extends BaseModel
 
     protected function address(): Attribute
     {
-        return Attribute::get(fn () => $this->location);
+        return Attribute::get(fn() => $this->location);
     }
 
     protected function category(): Attribute
     {
-        return Attribute::get(fn () => $this->categories->first() ?: new Category());
+        return Attribute::get(fn() => $this->categories->first() ?: new Category());
     }
 
     public function currency(): BelongsTo
@@ -163,27 +176,27 @@ class Property extends BaseModel
 
     protected function typeHtml(): Attribute
     {
-        return Attribute::get(fn () => $this->type->label());
+        return Attribute::get(fn() => $this->type->label());
     }
 
     protected function statusHtml(): Attribute
     {
-        return Attribute::get(fn () => $this->status->toHtml());
+        return Attribute::get(fn() => $this->status->toHtml());
     }
 
     protected function categoryName(): Attribute
     {
-        return Attribute::get(fn () => $this->category->name);
+        return Attribute::get(fn() => $this->category->name);
     }
 
     protected function imageThumb(): Attribute
     {
-        return Attribute::get(fn () => $this->image ? RvMedia::getImageUrl($this->image, 'thumb', false, RvMedia::getDefaultImage()) : null);
+        return Attribute::get(fn() => $this->image ? RvMedia::getImageUrl($this->image, 'thumb', false, RvMedia::getDefaultImage()) : null);
     }
 
     protected function imageSmall(): Attribute
     {
-        return Attribute::get(fn () => $this->image ? RvMedia::getImageUrl($this->image, 'small', false, RvMedia::getDefaultImage()) : null);
+        return Attribute::get(fn() => $this->image ? RvMedia::getImageUrl($this->image, 'small', false, RvMedia::getDefaultImage()) : null);
     }
 
     protected function priceHtml(): Attribute
@@ -226,7 +239,7 @@ class Property extends BaseModel
 
     protected function mapIcon(): Attribute
     {
-        return Attribute::get(fn () => $this->type_html . ': ' . $this->price_format);
+        return Attribute::get(fn() => $this->type_html . ': ' . $this->price_format);
     }
 
     public function customFields(): MorphMany
@@ -236,7 +249,7 @@ class Property extends BaseModel
 
     protected function customFieldsArray(): Attribute
     {
-        return Attribute::get(fn () => CustomFieldValue::getCustomFieldValuesArray($this));
+        return Attribute::get(fn() => CustomFieldValue::getCustomFieldValuesArray($this));
     }
 
     public function reviews(): MorphMany
@@ -270,7 +283,7 @@ class Property extends BaseModel
             }
 
             return collect($floorPlan)
-                ->filter(fn ($floorPlan) => is_array($floorPlan))
+                ->filter(fn($floorPlan) => is_array($floorPlan))
                 ->map(function ($floorPlan) {
                     $floorPlan = collect($floorPlan)->pluck('value', 'key')->toArray();
                     $bedrooms = (int) Arr::get($floorPlan, 'bedrooms', 0);

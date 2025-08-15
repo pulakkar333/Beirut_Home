@@ -1,10 +1,40 @@
 'use strict'
 
+// Ensure jQuery is available
+if (typeof $ === 'undefined') {
+    console.error('jQuery is not loaded. Theme functionality will not work properly.')
+}
+
 $(() => {
     window.Theme = window.Theme || {}
 
     window.Theme.isRtl = () => {
         return document.body.getAttribute('dir') === 'rtl'
+    }
+
+    // Add fallback functions if not defined by the core system
+    window.Theme.showError = window.Theme.showError || function(message) {
+        console.error('Theme Error:', message)
+        alert('Error: ' + message)
+    }
+
+    window.Theme.showSuccess = window.Theme.showSuccess || function(message) {
+        console.log('Theme Success:', message)
+        alert('Success: ' + message)
+    }
+
+    window.Theme.handleError = window.Theme.handleError || function(error) {
+        console.error('Theme Handle Error:', error)
+        const message = error.responseJSON?.message || error.message || 'An error occurred'
+        window.Theme.showError(message)
+    }
+
+    // Helper function to safely initialize Swiper
+    window.Theme.initSwiper = function(selector, options) {
+        if (typeof Swiper !== 'undefined' && $(selector).length > 0) {
+            return new Swiper(selector, options)
+        }
+        return null
     }
 
     const setCookie = (name, value, days) => {
@@ -56,7 +86,7 @@ $(() => {
     /* Parallax
     -------------------------------------------------------------------------------------*/
     const parallax = function () {
-        if ($().parallax && isMobile.any() == null) {
+        if (typeof $.fn.parallax !== 'undefined' && isMobile.any() == null) {
             $('.parallax').parallax('50%', 0.2)
         }
     }
@@ -92,7 +122,7 @@ $(() => {
             $(window).scroll(function () {
                 const oTop = $counter.offset().top - window.innerHeight
                 if (a === 0 && $(window).scrollTop() > oTop) {
-                    if ($().countTo) {
+                    if (typeof $.fn.countTo !== 'undefined') {
                         $('.tf-counter')
                             .find('.number')
                             .each(function () {
@@ -112,7 +142,9 @@ $(() => {
         }
     }
 
-    new WOW().init()
+    if (typeof WOW !== 'undefined') {
+        new WOW().init()
+    }
 
     /* Sidebar Toggle
     -------------------------------------------------------------------------------------*/
@@ -279,7 +311,7 @@ $(() => {
     /* One Page
     -------------------------------------------------------------------------------------*/
     const onepageSingle = function () {
-        if ($('.cate-single-tab').length) {
+        if ($('.cate-single-tab').length && typeof $.fn.onePageNav !== 'undefined') {
             const top_offset = $('.main-header').height() - 10
             $('.cate-single-tab').onePageNav({
                 currentClass: 'active',
@@ -453,7 +485,9 @@ $(() => {
         $('.select_js').niceSelect()
     }
 
-    new WOW().init()
+    if (typeof WOW !== 'undefined') {
+        new WOW().init()
+    }
 
     //Submenu Dropdown Toggle
     if ($('.main-header li.dropdown2 ul').length) {
@@ -974,7 +1008,7 @@ $(() => {
         Spanizer.init()
     }
 
-    if ($('.thumbs-swiper-column').length > 0) {
+    if ($('.thumbs-swiper-column').length > 0 && typeof Swiper !== 'undefined') {
         const swiperthumbs = new Swiper('.thumbs-swiper-column1', {
             rtl: Theme.isRtl(),
             spaceBetween: 0,
@@ -1002,7 +1036,7 @@ $(() => {
         })
     }
 
-    if ($('.slider-sw-home2').length > 0) {
+    if ($('.slider-sw-home2').length > 0 && typeof Swiper !== 'undefined') {
         const swiper2 = new Swiper('.slider-sw-home2', {
             rtl: Theme.isRtl(),
             spaceBetween: 0,
@@ -1021,7 +1055,7 @@ $(() => {
     if ($('.tf-sw-auto').length > 0) {
         const loop = $('.tf-sw-auto').data('loop')
 
-        const swiper = new Swiper('.tf-sw-auto', {
+        const swiper = Theme.initSwiper('.tf-sw-auto', {
             rtl: Theme.isRtl(),
             autoplay: {
                 delay: 1500,
@@ -1040,7 +1074,7 @@ $(() => {
         })
     }
 
-    const pagithumbs = new Swiper('.thumbs-sw-pagi', {
+    const pagithumbs = Theme.initSwiper('.thumbs-sw-pagi', {
         rtl: Theme.isRtl(),
         spaceBetween: 14,
         slidesPerView: 'auto',
@@ -1057,7 +1091,7 @@ $(() => {
         },
     })
 
-    const swiperSingle = new Swiper('.sw-single', {
+    const swiperSingle = Theme.initSwiper('.sw-single', {
         rtl: Theme.isRtl(),
         spaceBetween: 16,
         autoplay: {
@@ -1443,7 +1477,7 @@ $(() => {
     const initMap = (formData) => {
         const $element = $('[data-bb-toggle="list-map"]')
 
-        if ($element.length < 1) {
+        if ($element.length < 1 || typeof L === 'undefined') {
             return
         }
 
